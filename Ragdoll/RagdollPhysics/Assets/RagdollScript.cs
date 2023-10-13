@@ -4,47 +4,44 @@ using UnityEngine;
 
 public class RagdollScript : MonoBehaviour
 {
+    float rigidbodyActiveDist = 5f;
     private Rigidbody[] ragdollRB;
     private Collider[] ragdollColliders;
-    bool isRagdoll = false;
-    public bool canCollide;
     // Start is called before the first frame update
     void Start()
     {
         ragdollRB = GetComponentsInChildren<Rigidbody>();
         ragdollColliders = GetComponentsInChildren<Collider>();
-        SetRagDollEnabled(isRagdoll);
+        SetRagDollDisabled();
     }
 
-    public void SetRagDollEnabled(bool enabled)
+    public void SetRagDollEnabled()
     {
         foreach (Rigidbody rb in ragdollRB) {
         rb.isKinematic = !enabled;
         }
-    }
-
-    public void SetCollisionEnabled(bool enabled) {
         foreach(Collider col in ragdollColliders) {
             col.enabled = enabled;
         }
     }
 
-    void FixedUpdate()
+    public void SetRagDollDisabled() 
     {
-        SetCollisionEnabled(canCollide);
+        foreach (Rigidbody rb in ragdollRB) {
+        rb.isKinematic = enabled;
+        }
+        foreach(Collider col in ragdollColliders) {
+            col.enabled = enabled;
+        }
     }
+
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Bullet")
         {
+            SetRagDollEnabled();
             Debug.Log("Collision detected.");
-            isRagdoll = true;
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
