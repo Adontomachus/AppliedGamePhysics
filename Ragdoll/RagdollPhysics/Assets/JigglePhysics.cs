@@ -24,6 +24,8 @@ public class JigglePhysics : MonoBehaviour
         GV = new GameObjectVertex[MeshClone.vertices.Length];
         for (int i = 0; i < MeshClone.vertices.Length; i++) {
             GV[i] = new GameObjectVertex(i, transform.TransformPoint(MeshClone.vertices[i]));
+            GV[i].velocity = Vector3.zero;
+            GV[i].force = Vector3.zero;
         }
     }
 
@@ -59,6 +61,7 @@ public class JigglePhysics : MonoBehaviour
             force = (target - position) * s;
             velocity = (velocity + force / m) * d;
             position += velocity;
+            // if ((target - position).magnitude < 0.01f)
             if ((velocity + force + force/m).magnitude < 0.01f)
             {
                 position = target;
